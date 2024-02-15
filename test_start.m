@@ -1,5 +1,5 @@
 function test_start( fileOrFolder, dispNoTest )
-
+    addpath(genpath("."));
     if( nargin < 1)
         fileOrFolder = [ fileparts(mfilename('fullpath')) '/../'];
     end
