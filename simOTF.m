@@ -22,6 +22,8 @@ function [otf, psf] = simOTF(sizeIm, cutFreq )
         %PSF
        psf = real(ifft2(otf)); 
     end
+
+    otf = [];
     
 end
 

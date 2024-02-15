@@ -1,10 +1,16 @@
-function test_start( fileOrFolder, dispNoTest )
-    addpath(genpath("."));
+function test_start( fileOrFolder, dispNoTest, topCall )    
+
     if( nargin < 1)
-        fileOrFolder = [ fileparts(mfilename('fullpath')) '/../'];
+        fileOrFolder = [ fileparts(mfilename('fullpath')) '/'];
     end
     if( nargin < 2)
         dispNoTest = 0;
+    end
+    if( nargin < 3 )
+        topCall = 1;
+    end
+    if(topCall)
+        addpath(genpath(fileOrFolder));
     end
 
 %    fprintf( '%s\n' , fileOrFolder );
@@ -24,7 +30,7 @@ function test_start( fileOrFolder, dispNoTest )
 
         N = numel( curDir );
         for i = 1:N
-           test_start( [fileOrFolder curDir(i).name ] , dispNoTest );
+           test_start( [fileOrFolder curDir(i).name ] , dispNoTest, 0 );
         end
 
         return;
