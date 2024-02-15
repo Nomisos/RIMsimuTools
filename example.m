@@ -23,6 +23,10 @@ doPoissonNoise = 1;% Boolean to simulate Poisson noise or not
 cutFreqCol = 2*NA*pixelSize*1000/magnification / lambdaCol;% should be between 0 and .5 (See Nyquist criterion)
 [otfCol, psfCol] = simOTF(curSize, cutFreqCol);
 
+%If you want to save a PSF image to use with AlgoRIM Interface uncomment
+%next line
+% imwrite( mNormalize(fftshift(psfCol)) , sprintf("psf_L%03.0f_N%dx%d_ps%05.0f.tif",lambdaCol, curSize, pixelSize*1000/magnification ));
+
 
 figure;
 subplot 131
