@@ -5,6 +5,7 @@
 %
 function [otf, psf] = simOTF(sizeIm, cutFreq )
 
+
     if( nargin==0 )
        sizeIm = [255 255]; 
     end
@@ -22,6 +23,7 @@ function [otf, psf] = simOTF(sizeIm, cutFreq )
         %PSF
        psf = real(ifft2(otf)); 
     end
+    
     
 end
 
