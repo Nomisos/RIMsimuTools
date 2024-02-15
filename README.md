@@ -5,11 +5,12 @@ Only 1D and 2D simulations are supported.
 
 See file named `example.m` containing a commented example on how to generate PSF, speckle and RIM images:
 
-<center>
-<img src="imgs/psf_L520_N200x200_ps00065.png" alt="psf" style="width:25%">
-<img src="imgs/speckle_L488_N200x200_ps00065.png" alt="speckle" style="width:25%">
-<img src="imgs/imgWithNoise_L520_N200x200_ps00065.png" alt="image" style="width:25%">
-</center>
+<p align="center" width="100%">
+    <img width="30%" src="imgs/psf_L520_N200x200_ps00065.png"> 
+    <img width="30%" src="imgs/speckle_L488_N200x200_ps00065.png"> 
+    <img width="30%" src="imgs/imgWithNoise_L520_N200x200_ps00065.png"> 
+</p>
+
 
 # List of the main functions
 
