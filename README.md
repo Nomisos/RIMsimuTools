@@ -3,6 +3,7 @@
 This repository contains useful functions to simulate simple Point Spread Function (PSFs), random speckles and microscopy images with measurement noise. All function can be used with Octave and should be compatible with Matlab.
 Only 1D and 2D simulations are supported.
 
+To use this library, simply add the folder and subfolders to your path.
 See file named `example.m` containing a commented example on how to generate PSF, speckle and RIM images:
 
 <p align="center" width="100%">
