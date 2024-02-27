@@ -3,7 +3,7 @@ clc;
 clear;
 
 lambdaCol = 520; % Collection wavelenght
-lambdaIllu = 520; % Illumination wavelenght
+lambdaIllu = 488; % Illumination wavelenght
 
 curSize = 200*[1 1];% Number of pixel of your camera
 pixelSize = 6.5;% Pixel size of your camera in micrometers
@@ -22,6 +22,10 @@ doPoissonNoise = 1;% Boolean to simulate Poisson noise or not
 
 cutFreqCol = 2*NA*pixelSize*1000/magnification / lambdaCol;% should be between 0 and .5 (See Nyquist criterion)
 [otfCol, psfCol] = simOTF(curSize, cutFreqCol);
+
+%If you want to save a PSF image to use with AlgoRIM Interface uncomment
+%next line
+% imwrite( mNormalize(fftshift(psfCol)) , sprintf("psf_L%03.0f_N%dx%d_ps%05.0f.tif",lambdaCol, curSize, pixelSize*1000/magnification ));
 
 
 figure;
@@ -100,3 +104,10 @@ end
 
 %%
 
+SAVE = 0;
+if(SAVE)
+    fileFormat = ".tif";
+    imwrite( mNormalize(fftshift(psfCol)) , sprintf("psf_L%03.0f_N%dx%d_ps%05.0f%s",lambdaCol , curSize, pixelSize*1000/magnification ,fileFormat));
+    imwrite( mNormalize(illu(:,:,1)) , sprintf("speckle_L%03.0f_N%dx%d_ps%05.0f%s",lambdaIllu, curSize, pixelSize*1000/magnification, fileFormat ));
+    imwrite( mNormalize(imgWithNoise(:,:,1)) , sprintf("imgWithNoise_L%03.0f_N%dx%d_ps%05.0f%s",lambdaCol, curSize, pixelSize*1000/magnification, fileFormat ));
+end
