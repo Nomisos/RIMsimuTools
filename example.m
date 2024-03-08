@@ -1,14 +1,16 @@
+%Select the path
+
 close all;
 clc;
 clear;
 
-lambdaCol = 520; % Collection wavelenght
-lambdaIllu = 488; % Illumination wavelenght
+lambdaCol = 642; % Collection wavelenght
+lambdaIllu = 620; % Illumination wavelenght
 
-curSize = 200*[1 1];% Number of pixel of your camera
+curSize = 512*[1 1];% Number of pixel of your camera
 pixelSize = 6.5;% Pixel size of your camera in micrometers
 magnification = 100;% total magnification from camera to sample plane
-NA = 1.33;% NA of your objective
+NA = 1.35;% NA of your objective
 
 numIllu = 100;% number of illumination simulated
 meanIllu = 5;% Average number of photons in the illumination
@@ -25,22 +27,22 @@ cutFreqCol = 2*NA*pixelSize*1000/magnification / lambdaCol;% should be between 0
 
 %If you want to save a PSF image to use with AlgoRIM Interface uncomment
 %next line
-% imwrite( mNormalize(fftshift(psfCol)) , sprintf("psf_L%03.0f_N%dx%d_ps%05.0f.tif",lambdaCol, curSize, pixelSize*1000/magnification ));
+imwrite( mNormalize(fftshift(psfCol)) , sprintf('psf_L%03.0f_N%dx%d_ps%05.0f.tif',lambdaCol, curSize, pixelSize*1000/magnification ));
 
 
 figure;
 subplot 131
 imagesc( fftshift(otfCol) );
 axis square
-title("Col OTF");
+title('Col OTF');
 subplot 132
 imagesc( fftshift(psfCol) );
 axis square
-title("Col PSF");
+title('Col PSF');
 subplot 133
 imagesc( mExtract(fftshift(psfCol) , floor(curSize/5)) );
 axis square
-title("Col PSF (smaller region)");
+title('Col PSF (smaller region)');
 
 
 %% Simulation of the speckles
@@ -54,7 +56,7 @@ for i = 1:4
     subplot(2,2,i);
     imagesc( illu(:,:,i) );
     axis square
-    title( sprintf("Speckle %d", i));
+    title( sprintf('Speckle %d', i));
     colorbar
 end
 
@@ -66,20 +68,20 @@ obj = 1+cos(20*mTheta(curSize)); % simulation of a target object
 figure;
 imagesc(obj);
 axis square
-title("Object");
+title('Object');
 
 
 
 %% Simulation of RIM images
 
-imgNoNoise = real(ifft2( otfCol .* fft2(obj.*illu) )); % Simulation of noisless RIM images
+imgNoNoise = real(ifft2( repmat(otfCol, [1 1 numIllu]) .* fft2(repmat(obj, [1 1 numIllu]).*illu) )); % Simulation of noisless RIM images
 
 figure;
 for i = 1:4
     subplot(2,2,i);
     imagesc( imgNoNoise(:,:,i) );
     axis square
-    title( sprintf("Image %d", i));
+    title( sprintf('Image %d', i));
     colorbar
 end
 
@@ -97,7 +99,7 @@ for i = 1:4
     subplot(2,2,i);
     imagesc( imgWithNoise(:,:,i) );
     axis square
-    title( sprintf("Noisy image %d", i));
+    title( sprintf('Noisy image %d', i));
     colorbar
 end
 
@@ -106,8 +108,8 @@ end
 
 SAVE = 0;
 if(SAVE)
-    fileFormat = ".tif";
-    imwrite( mNormalize(fftshift(psfCol)) , sprintf("psf_L%03.0f_N%dx%d_ps%05.0f%s",lambdaCol , curSize, pixelSize*1000/magnification ,fileFormat));
-    imwrite( mNormalize(illu(:,:,1)) , sprintf("speckle_L%03.0f_N%dx%d_ps%05.0f%s",lambdaIllu, curSize, pixelSize*1000/magnification, fileFormat ));
-    imwrite( mNormalize(imgWithNoise(:,:,1)) , sprintf("imgWithNoise_L%03.0f_N%dx%d_ps%05.0f%s",lambdaCol, curSize, pixelSize*1000/magnification, fileFormat ));
+    fileFormat = '.tif';
+    imwrite( mNormalize(fftshift(psfCol)) , sprintf('psf_L%03.0f_N%dx%d_ps%05.0f%s',lambdaCol , curSize, pixelSize*1000/magnification ,fileFormat));
+    imwrite( mNormalize(illu(:,:,1)) , sprintf('speckle_L%03.0f_N%dx%d_ps%05.0f%s',lambdaIllu, curSize, pixelSize*1000/magnification, fileFormat ));
+    imwrite( mNormalize(imgWithNoise(:,:,1)) , sprintf('imgWithNoise_L%03.0f_N%dx%d_ps%05.0f%s',lambdaCol, curSize, pixelSize*1000/magnification, fileFormat ));
 end

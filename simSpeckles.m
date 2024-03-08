@@ -17,7 +17,7 @@ function [illu, field, X ] = simSpeckles( sizeIm, cutFreq, numIllu, meanIllu)
        
     fact = meanIllu * numel(curFilter) / ( 2*sum( abs( curFilter(:) ).^2) );             
     X = sqrt(fact)*(randn([sizeIm numIllu]) + 1j * randn([sizeIm numIllu]));
-    field = ifft2( fft2(X) .* curFilter);
+    field = ifft2( fft2(X) .* repmat(curFilter, [1 1 numIllu]));
     illu = abs(field).^2;
    
         
